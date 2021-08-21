@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import HemisphereDisplay from './HemisphereDisplay';
 
 // const App = () => {
 
@@ -16,11 +17,14 @@ import ReactDOM from 'react-dom';
 
 class App extends React.Component{
 
-  constructor(props) {
-    super(props)
+  // constructor(props) {
+  //   super(props)
+  //   this.state = { latitude: 25, errorMessage: "" }    
+  // } state constructor içinde veya dışında tanımlanabilir. içinde tanımlanırsa "this.state = {...}" şeklinde; dışında tanımlanırsa state = {...} şeklinde tanımlanır.
 
-    this.state = { latitude: 25, errorMessage: "" }
-    
+  state = { latitude: 25, errorMessage: "" }
+
+  componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({ latitude: position.coords.latitude })
@@ -29,12 +33,7 @@ class App extends React.Component{
         this.setState({errorMessage: error.message})
       }
     );
-    
   }
-
-  // componentDidMount() {
-  //   console.log("componentDidMount")
-  // }
 
   // componentDidUpdate() {
   //   console.log("componentDidUpdate")
@@ -47,8 +46,9 @@ class App extends React.Component{
         return <div> {this.state.errorMessage} </div>
     }
       if (!this.state.errorMessage && this.state.latitude) {
-        return <div> {this.state.latitude} </div>
-      } else {
+        return <div> <HemisphereDisplay latitude={ this.state.latitude }/> </div>
+      }
+      else {
         return <div>Loading...</div>
       }
       
